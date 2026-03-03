@@ -2,6 +2,10 @@ server:
   port: 8123
   servlet:
     context-path: /api
+    # 30天过期
+    session:
+      cookie:
+        max-age: 259200
 spring:
     # 开放更大的文件上传体积
   servlet:
@@ -9,6 +13,19 @@ spring:
       max-file-size: 10MB
   application:
     name: yang-picture-backend
+  # Redis 配置
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    timeout: 5000
+  # session
+  session:
+    store-type: redis
+    timeout: 259200
+  #制定配置文件
+#  profiles:
+#    active: local
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
