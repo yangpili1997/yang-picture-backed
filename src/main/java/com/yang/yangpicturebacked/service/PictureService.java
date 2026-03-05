@@ -3,6 +3,7 @@ package com.yang.yangpicturebacked.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yang.yangpicturebacked.exception.PictureUploadRequest;
+import com.yang.yangpicturebacked.model.dto.picture.PictureEditRequest;
 import com.yang.yangpicturebacked.model.dto.picture.PictureQueryRequest;
 import com.yang.yangpicturebacked.model.dto.picture.PictureReviewRequest;
 import com.yang.yangpicturebacked.model.dto.picture.PictureUploadByBatchRequest;
@@ -68,4 +69,10 @@ public interface PictureService extends IService<Picture> {
      * @param oldPicture
      */
     void clearPictureFile(Picture oldPicture);
+
+    void checkPictureAuth(User loginUser, Picture picture);
+
+    void deletePicture(long pictureId, User loginUser);
+
+    void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
 }
