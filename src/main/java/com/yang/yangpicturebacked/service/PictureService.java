@@ -3,17 +3,16 @@ package com.yang.yangpicturebacked.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yang.yangpicturebacked.exception.PictureUploadRequest;
-import com.yang.yangpicturebacked.model.dto.picture.PictureEditRequest;
-import com.yang.yangpicturebacked.model.dto.picture.PictureQueryRequest;
-import com.yang.yangpicturebacked.model.dto.picture.PictureReviewRequest;
-import com.yang.yangpicturebacked.model.dto.picture.PictureUploadByBatchRequest;
+import com.yang.yangpicturebacked.model.dto.picture.*;
 import com.yang.yangpicturebacked.model.entity.Picture;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yang.yangpicturebacked.model.entity.User;
 import com.yang.yangpicturebacked.model.vo.PictureVO;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
 * @author yangli
@@ -75,4 +74,9 @@ public interface PictureService extends IService<Picture> {
     void deletePicture(long pictureId, User loginUser);
 
     void editPicture(PictureEditRequest pictureEditRequest, User loginUser);
+
+    List<PictureVO> searchPictureByColor(Long spaceId, String picColor, User loginUser);
+
+    @Transactional(rollbackFor = Exception.class)
+    void editPictureByBatch(PictureEditByBatchRequest pictureEditByBatchRequest, User loginUser);
 }
