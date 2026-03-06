@@ -2,6 +2,7 @@ package com.yang.yangpicturebacked.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yang.yangpicturebacked.api.aliyunai.model.CreateOutPaintingTaskResponse;
 import com.yang.yangpicturebacked.exception.PictureUploadRequest;
 import com.yang.yangpicturebacked.model.dto.picture.*;
 import com.yang.yangpicturebacked.model.entity.Picture;
@@ -79,4 +80,6 @@ public interface PictureService extends IService<Picture> {
 
     @Transactional(rollbackFor = Exception.class)
     void editPictureByBatch(PictureEditByBatchRequest pictureEditByBatchRequest, User loginUser);
+
+    CreateOutPaintingTaskResponse createPictureOutPaintingTask(CreatePictureOutPaintingTaskRequest createPictureOutPaintingTaskRequest, User loginUser);
 }
