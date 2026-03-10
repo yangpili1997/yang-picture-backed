@@ -11,6 +11,7 @@ import com.yang.yangpicturebacked.constant.UserConstant;
 import com.yang.yangpicturebacked.exception.BusinessException;
 import com.yang.yangpicturebacked.exception.ErrorCode;
 import com.yang.yangpicturebacked.exception.ThrowUtils;
+import com.yang.yangpicturebacked.manager.auth.SpaceUserAuthManager;
 import com.yang.yangpicturebacked.model.dto.picture.*;
 import com.yang.yangpicturebacked.model.dto.space.*;
 import com.yang.yangpicturebacked.model.entity.Space;
@@ -44,6 +45,8 @@ public class SpaceController {
 
     @Resource
     private SpaceService spaceService;
+    @Resource
+    private SpaceUserAuthManager spaceUserAuthManager;
 
     @PostMapping("/add")
     public BaseResponse<Long> addSpace(@RequestBody SpaceAddRequest spaceAddRequest,HttpServletRequest request) {
@@ -122,9 +125,14 @@ public class SpaceController {
         // 查询数据库
         Space space = spaceService.getById(id);
         ThrowUtils.throwIf(space == null, ErrorCode.NOT_FOUND_ERROR);
+        SpaceVO spaceVO = spaceService.getSpaceVO(space, request);
+        User loginUser = userService.getLoginUser(request);
+        List<String> permissionList = spaceUserAuthManager.getPermissionList(space, loginUser);
+        spaceVO.setPermissionList(permissionList);
         // 获取封装类
-        return ResultUtils.success(spaceService.getSpaceVO(space, request));
+        return ResultUtils.success(spaceVO);
     }
+
 
     /**
      * 分页获取空间列表（仅管理员可用）
